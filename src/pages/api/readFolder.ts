@@ -21,10 +21,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       folderNames.find(p => p.endsWith('.srt'))
     )?.reduce((acc, cur) => {
       if (acc.length === 0) return [cur]
+      if (cur.text.trim().startsWith('-')) {
+        acc.push(cur)
+        return acc
+      }
       const last = acc[acc.length - 1]
       const lastEnd = last.endSeconds
-
-      if (cur.startSeconds - lastEnd < 3 && last.text.length < 80) {
+      const seconds = 2
+      if (cur.startSeconds - lastEnd < seconds && last.text.length < 80) {
         acc.pop()
         acc.push({
           ...last,
@@ -47,7 +51,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           p.endsWith('.mov')
       ),
 
-      subtitleData: subtitle,
+      subtitleData: subtitle?.map(s => ({
+        ...s,
+        text: s.text.replace(/\<.*?\>/g, ''),
+      })),
     })
     // res.status(200).json(folderNames.filter(p => !p.endsWith('.parts')))
   } catch (error) {

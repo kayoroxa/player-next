@@ -8,7 +8,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [mainPath, setMainPath] = useState(
-    'M:/series/Break bad/Breaking Bad Season 1 Complete 720p.BRrip.Sujaidr'
+    // 'King Richard (2021) [720p] [WEBRip] [YTS.MX]'
+    'M:/series/King Richard (2021) [720p] [WEBRip] [YTS.MX]'
   )
 
   const { data } = useQuery<{
@@ -44,7 +45,12 @@ export default function Home() {
           >
             <source
               className=""
-              src={`/api/video?videoPath=${mainPath + '/' + data?.videoPath}`}
+              src={`http://localhost:9999/${
+                'King Richard (2021) [720p] [WEBRip] [YTS.MX]' +
+                '/' +
+                data?.videoPath
+              }`}
+              // src={`/api/video?videoPath=${mainPath + '/' + data?.videoPath}`}
               type="video/mp4"
             />
           </video>

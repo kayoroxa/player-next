@@ -55,10 +55,10 @@ const Subtitles = ({
     if (words.length === 0) return ''
 
     return words
-      .map(word => {
+      .map((word, i) => {
         const random = Math.random()
 
-        if (random < 0.3) return word
+        if (random < 0.1 || i % 2 === 0) return word
         return word.replace(/[\w{2}]/gi, '_').replace(/[\w|']/g, '_')
       })
       .join(' ')
